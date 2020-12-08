@@ -30,6 +30,9 @@ workflows:
   build:
     jobs:
       - build
+          filters:
+              tags:
+                only: /^\d+\.\d+\.\d+$/
       - release:
           filters:
               tags:
@@ -38,3 +41,4 @@ workflows:
                 ignore: /.*/ 
           requires:
             - build
+            
