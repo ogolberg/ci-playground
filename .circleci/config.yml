@@ -1,22 +1,38 @@
 version: 2.1
 
-jobs:
-  build:
+executors:
+  builder:
     working_directory: ~/code
     docker:
       - image: circleci/openjdk:11.0.3-jdk-stretch
     environment:
       JAVA_OPTS: "-XX:MaxRAMPercentage=50"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+jobs:
+  build:
+    executor: builder
     steps:
       - checkout
       - run: 
-          name: stuff
+          name: Build
           command: echo "building git revision << pipeline.git.revision >>"
   release:
+    executor: builder
+    steps:
+      - checkout
+      - run: 
+          name: Release
+          command: echo "releasing << pipeline.git.tag >>"
 
 workflows:
   version: 2.1
   build:
     jobs:
       - build
+      - release:
+          filters:
+              tags:
+                only: /^\d+\.\d+\.\d+$/
+          requires:
+            - build
