@@ -10,7 +10,9 @@ jobs:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
     steps:
       - checkout
-      - run: echo "building git revision << pipeline.git.revision >>"
+      - run: 
+          name: stuff
+          command: echo "building git revision << pipeline.git.revision >>"
   release:
 
 workflows:
