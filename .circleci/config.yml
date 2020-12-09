@@ -31,13 +31,6 @@ jobs:
               command: echo "on main"
       - when:
           condition:
-            equal: [main, << pipeline.git.branch >>]
-          steps:
-            run:
-              name: Main
-              command: echo "on main"
-      - when:
-          condition:
             equal: [ true, << pipeline.parameters.benchmarks >> ]
           steps:
             run:
