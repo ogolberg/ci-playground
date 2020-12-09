@@ -1,5 +1,10 @@
 version: 2.1
 
+parameters:
+  benchmarks:
+    type: boolean
+    default: false
+
 executors:
   builder:
     working_directory: ~/code
@@ -17,6 +22,28 @@ jobs:
       - run: 
           name: Build
           command: echo "building git revision << pipeline.git.revision >>"
+      - when:
+          condition:
+            equal: [main, << pipeline.git.branch >>]
+          steps:
+            run:
+              name: Main
+              command: echo "on main"
+      - when:
+          condition:
+            equal: [main, << pipeline.git.branch >>]
+          steps:
+            run:
+              name: Main
+              command: echo "on main"
+      - when:
+          condition:
+            equal: [ true, << pipeline.parameters.benchmarks >> ]
+          steps:
+            run:
+              name: Benchmarks
+              command: echo "running benchmarks"
+
   release:
     executor: builder
     steps:
